@@ -3,6 +3,7 @@ package com.casemodule4.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -12,6 +13,5 @@ public class Classroom {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Subject subject;
-
+    private List<Subject> subject;
 }

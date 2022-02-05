@@ -35,6 +35,6 @@ public class AppUser {
     @ManyToOne
     private Role role;
 
-    @ManyToMany(fetch=FetchType.EAGER)
-    private List<Subject> subject;
+    @ManyToOne
+    private Classroom classroom;
 }
