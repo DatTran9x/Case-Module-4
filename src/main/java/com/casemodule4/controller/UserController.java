@@ -4,7 +4,6 @@ import com.casemodule4.model.AppUser;
 import com.casemodule4.service.IAppUserService;
 import com.casemodule4.service.IRoleService;
 import org.apache.catalina.Role;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<AppUser> addAppUser(AppUser appUser){
-        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+//        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         appUserService.addAppUser(appUser);
         return new ResponseEntity(appUser,HttpStatus.OK);
     }
