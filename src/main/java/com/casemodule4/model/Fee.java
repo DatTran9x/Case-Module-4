@@ -10,11 +10,11 @@ import java.sql.Date;
 
 @Entity
 @Data
-public class Diary {
+public class Fee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String content;
-    private Date dateOfWrite;
-    private String lectureName;
+    private Date date;
+    private double fee;
+    private boolean isPayed;
 }

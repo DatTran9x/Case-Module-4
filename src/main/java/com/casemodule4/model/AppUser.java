@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,9 +32,15 @@ public class AppUser {
     @NotEmpty
     private String identity;
 
-    @ManyToOne
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Classroom> classroom;
 
     @ManyToOne
-    private Classroom classroom;
+    private AppUserStatus appUserStatus;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Diary> diary;
 }

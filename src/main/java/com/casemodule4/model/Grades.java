@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -13,4 +14,5 @@ public class Grades {
     private double theoreticalPoint;
     private double practicePoint;
     private double averagePoint;
+    private Date dateOfTest;
 }

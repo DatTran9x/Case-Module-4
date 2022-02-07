@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,7 @@ import java.util.Set;
 public class Subject {
     @Id
     private int id;
+    @NotEmpty(message="Not empty")
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
