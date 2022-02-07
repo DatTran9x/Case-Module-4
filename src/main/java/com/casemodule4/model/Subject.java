@@ -1,24 +1,20 @@
 package com.casemodule4.model;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import java.util.Set;
 
 @Entity
 @Data
-public class Subject implements GrantedAuthority {
+public class Subject {
     @Id
     private int id;
     private String name;
 
-    @Override
-    public String getAuthority() {
-        return name;
-    }
-
-    @OneToOne
-    private Grades grades;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Grades> grades;
 }
