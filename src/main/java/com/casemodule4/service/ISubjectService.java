@@ -10,4 +10,6 @@ public interface ISubjectService {
     void save(Subject subject);
     void delete(int id);
     Optional<Subject> findById(int id);
+    List<Subject> findAllByUserId(int id);
+    Subject findSubjectByGradeId(int id);
 }

@@ -1,5 +1,6 @@
 package com.casemodule4.service;
 
+import com.casemodule4.model.Grades;
 import com.casemodule4.model.Subject;
 import com.casemodule4.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,15 @@ public class SubjectService implements ISubjectService{
     @Override
     public Optional<Subject> findById(int id) {
         return subjectRepository.findById(id);
+    }
+
+    @Override
+    public  List<Subject> findAllByUserId(int id){
+        return subjectRepository.findAllByUserId(id);
+    }
+
+    @Override
+    public Subject findSubjectByGradeId(int id) {
+        return subjectRepository.findSubjectByGradeId(id);
     }
 }

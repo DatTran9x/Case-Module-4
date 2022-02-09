@@ -33,4 +33,9 @@ public class GradesService implements IGradesService{
     public Optional<Grades> findById(int id) {
         return gradeRepository.findById(id);
     }
+
+    @Override
+    public Object findAllByUserId(int id) {
+        return gradeRepository.findAllByUserId(id);
+    }
 }

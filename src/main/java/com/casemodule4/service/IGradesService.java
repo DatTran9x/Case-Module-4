@@ -10,4 +10,5 @@ public interface IGradesService {
     void save(Grades grades);
     void delete(int id);
     Optional<Grades> findById(int id);
+    Object findAllByUserId(int id);
 }

@@ -42,8 +42,5 @@ public class AppUser {
     private AppUserStatus appUserStatus;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Diary> diary;
-
-    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Fee> fee;
 }
