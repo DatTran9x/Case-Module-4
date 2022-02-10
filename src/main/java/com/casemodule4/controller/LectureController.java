@@ -43,6 +43,11 @@ public class LectureController {
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
+    @GetMapping("/getListClassroom/{id}")
+    public ResponseEntity<Set<Classroom>> showListClassByIdLecture(@PathVariable Integer id){
+        AppUser appUser = appUserService.getAppUserById(id).get();
+        return new ResponseEntity<>(  appUserService.getAppUserById(id).get().getClassroom(), HttpStatus.OK);
+    }
 
     @GetMapping("/diary/{id}")
     public ResponseEntity<Diary> showUpdateForm(@PathVariable int id) {
@@ -135,5 +140,9 @@ public class LectureController {
     public ResponseEntity<Grades> updateSubject(@RequestBody Grades grades){
         gradesService.save(grades);
         return new ResponseEntity(grades,HttpStatus.OK);
+    }
+    @GetMapping("/getAllClassroom")
+    public ResponseEntity<List<Classroom>> getAllClassroom(){
+        return new ResponseEntity<>(classService.findAll(), HttpStatus.OK);
     }
 }
