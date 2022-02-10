@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pike Admin PRO</title>
+    <meta name="description" content="Bootstrap 4 Admin Theme | Pike Admin">
+    <meta name="author" content="Pike Web Development - https://www.pikephp.com">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Switchery css -->
+    <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Font Awesome CSS -->
+    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- BEGIN CSS for this page -->
+
+    <!-- END CSS for this page -->
+
+</head>
+
+<body>
+<div class="card-header">
+
+   <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_add_user"><i  aria-hidden="true"></i> Add new user</button>
+    <div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-labelledby="modal_add_user" aria-hidden="true" id="modal_add_user">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+<!--                <form action="#" method="post" enctype="multipart/form-data">-->
+
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new user</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    </div>
+
+                    <div class="modal-body">
+
+<!--                        <div class="form-group">-->
+<!--                            <label for="name">Name:</label>-->
+<!--                            <input type="text" class="form-control" id="name">-->
+<!--                        </div>-->
+
+
+                        <div class="form-group">
+                            <label for="email">email:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="password">password:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="phone">phone:</label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="fullName">fullName:</label>
+                            <input type="text" class="form-control" id="fullName">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="dateOfBirth">dateOfBirth:</label>
+                            <input type="date" class="form-control" id="dateOfBirth">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="address">address:</label>
+                            <input type="text" class="form-control" id="address">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="identity">identity:</label>
+                            <input type="text" class="form-control" id="identity">
+                        </div>
+                        <div class="form-group" >
+                            <label for="idRoles">roles:</label>
+                            <select class="form-control" name="idRoles" id="idRoles"> </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="idClassroom" >classroom:</label>
+                            <select class="form-control" name="idClassroom" id="idClassroom"> </select>
+                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label for="idAppUserStatus">status:</label>-->
+<!--                            <select class="form-control" name="idAppUserStatus" id="idAppUserStatus"> </select>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="create(), console.log(idClassroom)" class="btn btn-primary">Add user</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/modernizr.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/moment.min.js"></script>
+
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/detect.js"></script>
+<script src="assets/js/fastclick.js"></script>
+<script src="assets/js/jquery.blockUI.js"></script>
+<script src="assets/js/jquery.nicescroll.js"></script>
+<script src="assets/js/jquery.scrollTo.min.js"></script>
+<script src="assets/plugins/switchery/switchery.min.js"></script>
+
+<!-- App js -->
+<script src="assets/js/pikeadmin.js"></script>
+</body>
+</html>
+<script>
+    let arrValue = [];
+    function create() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let phone = document.getElementById("phone").value;
+    let fullName = document.getElementById("fullName").value;
+    let dateOfBirth = document.getElementById("dateOfBirth").value;
+    let address = document.getElementById("address").value;
+    let identity = document.getElementById("identity").value;
+    let idRoles = document.getElementById("idRoles").value;
+    let idClassroom = document.getElementById("idClassroom").value;
+    // let idAppUserStatus = document.getElementById("idAppUserStatus").value;
+
+    let appUser = {
+        email: email,
+        password: password,
+        phone: phone,
+        fullName: fullName,
+        dateOfBirth: dateOfBirth,
+        address: address,
+        identity: identity,
+        roles: getListOption(idRoles),
+        classroom: getListOption(idClassroom),
+        // appUserStatus: {id: idAppUserStatus},
+    }
+        console.log(appUser)
+    $.ajax({
+    type: "POST",
+    headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+    },
+    url: "http://localhost:8080/register",
+    data: JSON.stringify(appUser),
+    //xử lý khi thành công
+    success: function (data) {
+    // show()
+        console.log("thành công")
+    },
+    error: function (err) {
+    console.log(err)
+    }
+    })
+    }
+    function getAllRoles(){
+
+        $.ajax({
+        type: "GET",
+        url : "http://localhost:8080/role",
+        success: function (data){
+            let str = "";
+            for (let i = 0; i < data.length; i++) {
+                str+= `<option value="${data[i].id}" >${data[i].name}</option>`
+                // str+= `${data[i].name}  <input  type="checkbox" onchange="getRole(${data[i].id})" name="mailId[]"> &nbsp; &nbsp;`
+            }
+            document.getElementById("idRoles").innerHTML = str;
+        }
+        })
+    };
+
+    function getListOption(value){
+        let role = {}
+        role.id=value;
+        arrValue.push(role)
+        console.log(arrValue)
+        return arrValue;
+    }
+    getAllRoles()
+    function getAllClassroom(){
+        $.ajax({
+            type: "GET",
+            url : "http://localhost:8080/classroom",
+            success: function (data){
+                let str = "";
+                for (let i = 0; i < data.length; i++) {
+                    str+= `<option value="${data[i].id}">${data[i].name}</option>`
+
+                }
+                document.getElementById("idClassroom").innerHTML = str;
+            }
+        })
+    };
+
+    // function getAllStatus(){
+    //     $.ajax({
+    //         type: "GET",
+    //         url : "http://localhost:8080/status",
+    //         success: function (data){
+    //             let str = "";
+    //             for (let i = 0; i < data.length; i++) {
+    //                 str+= `<option value="${data[i].id}">${data[i].name}</option>`
+    //             }
+    //             document.getElementById("idAppUserStatus").innerHTML = str;
+    //         }
+    //     })
+    // };
+    getAllRoles();
+    getAllClassroom();
+    // getAllStatus()
+</script>

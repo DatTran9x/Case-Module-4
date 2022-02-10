@@ -145,4 +145,9 @@ public class LectureController {
     public ResponseEntity<List<Classroom>> getAllClassroom(){
         return new ResponseEntity<>(classService.findAll(), HttpStatus.OK);
     }
+    @PutMapping("/insertClass/{idLecture}")
+    public ResponseEntity insertClass(@PathVariable Integer idLecture, @PathVariable Integer idClass){
+        appUserService.getAppUserById(idLecture).get().getClassroom().add(classService.findById(idClass).get());
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

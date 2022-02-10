@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>list class</title>
+    <meta name="description" content="Free Bootstrap 4 Admin Theme | Pike Admin">
+    <meta name="author" content="Pike Web Development - https://www.pikephp.com">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Font Awesome CSS -->
+    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
+
+    <!-- BEGIN CSS for this page -->
+
+    <!-- END CSS for this page -->
+
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
+
+    <div class="content-page">
+
+        <!-- Start content -->
+        <div class="content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3><i class="fa fa-table"></i> this is your list classroom</h3>
+                                <div class="card-header">
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#modal_add_slide"><i class="fa fa-plus" aria-hidden="true"></i>
+                                        Add class
+                                    </button>
+                                </div>
+                                <div class="card-header">
+                                    <div class="modal fade custom-modal" tabindex="-1" role="dialog"
+                                         aria-labelledby="modal_add_slide" aria-hidden="true" id="modal_add_slide">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!--                                                    <div class="modal-header">-->
+                                                <!--                                                        <h5 class="modal-title">choice class</h5>-->
+                                                <!--                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                                <!--                                                    </div>-->
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">choice class</h5>
+                                                    <checkbox type="checkbox" class="close" data-dismiss="modal"><span
+                                                            aria-hidden="true">&times;</span><span
+                                                            class="sr-only">Close</span></checkbox>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="allClassroom"></label>
+                                                    <select name="" id="allClassroom" class="form-control" > </select>
+                                                </div>
+                                                <input type="submit" onclick="insertClass()" value="thêm" class="btn btn-primary">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <table class="table table-responsive-xl">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">classroom</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody"></tbody>
+                            </table>
+
+                        </div>
+                    </div><!-- end card-->
+                </div>
+
+            </div>
+        </div>
+        <!-- END container-fluid -->
+
+    </div>
+    <!-- END content -->
+
+</div>
+<!-- END content-page -->
+
+
+</div>
+<!-- END main -->
+
+<script src="assets/js/modernizr.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/moment.min.js"></script>
+
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/detect.js"></script>
+<script src="assets/js/fastclick.js"></script>
+<script src="assets/js/jquery.blockUI.js"></script>
+<script src="assets/js/jquery.nicescroll.js"></script>
+
+<!-- App js -->
+<script src="assets/js/pikeadmin.js"></script>
+
+<!-- BEGIN Java Script for this page -->
+
+<!-- END Java Script for this page -->
+
+</body>
+</html>
+<Script>
+    function show() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/lecture/getListClassroom/" + 1,
+            //xử lý khi thành công
+            success: function (data) {
+                let str = "";
+                for (let i = 0; i < data.length; i++) {
+                    str += "<tr>"
+                    str += `<td>${i + 1}</td>`
+                    str += `<td>${data[i].name}
+
+                            </td>`
+                    str += "</tr>"
+                }
+                document.getElementById("tbody").innerHTML = str;
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+    show()
+
+    function getAllClassroom() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/lecture/getAllClassroom",
+            success: function (data) {
+                let str = "";
+                for (let i = 0; i < data.length; i++) {
+                    str += `<option value="${data[i].id}">${data[i].name}</option>`
+                }
+                document.getElementById("allClassroom").innerHTML = str;
+            }
+        })
+    }
+
+    getAllClassroom();
+
+    function removeClass(idLecture, idClassroom) {
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/lecture/removeClassroom/" + idLecture + "&&" + idClassroom,
+            success: function () {
+                show()
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+    function insertClass(){
+
+        let idClass = document.getElementById("allClassroom").value;
+        let arrIdClass = {idClass};
+        let idLecture = 1;
+        $.ajax({
+            type: "PUT",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            url: "http://localhost:8080/lecture/isertClass"+idLecture+ "&&" +idClass ,
+            data: JSON.stringify(arrIdClass),
+
+            //xử lý khi thành công
+            success: function (data) {
+                // show()
+                console.log("thành công")
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+</Script>

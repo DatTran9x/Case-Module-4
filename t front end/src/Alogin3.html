@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form >
+    <p><input type="email" placeholder="Email"></p>
+    <p><input type="password" placeholder="Password"></p>
+    <p><input type="submit" onclick="login()" value="Log in"></p>
+</form>
+<script>
+    function login(){
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+        let appUser = {
+            email: email,
+            password: password,
+        }
+        $.ajax({
+            type: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            url: "http://localhost:8080/login",
+            data: JSON.stringify(appUser),
+            //xử lý khi thành công
+            success: function (data) {
+                // show()
+                console.log("thành công")
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+</script>
+</body>
+</html>
