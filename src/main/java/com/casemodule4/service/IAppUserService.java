@@ -16,4 +16,5 @@ public interface IAppUserService extends UserDetailsService {
     Optional<AppUser> getAppUserById(int id);
     List<AppUser> findAppUserByName(String name);
     UserDetails loadUserByUsername(String email);
+    AppUser findAppUserByEmail(String getEmail);
 }

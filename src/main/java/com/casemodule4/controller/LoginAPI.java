@@ -1,8 +1,10 @@
 package com.casemodule4.controller;
 
 import com.casemodule4.model.AppUser;
+import com.casemodule4.model.UserToken;
 import com.casemodule4.service.IAppUserService;
 import com.casemodule4.service.JwtService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,14 @@ public class LoginAPI {
     PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AppUser appUser) {
+    public ResponseEntity<UserToken> login(@RequestBody AppUser appUser) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(appUser.getEmail(), appUser.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateTokenLogin(authentication);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        AppUser appUserTemp = userService.findAppUserByEmail(appUser.getEmail());
+        UserToken user = new UserToken(token,appUserTemp.getId());
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
     @PostMapping("/register")

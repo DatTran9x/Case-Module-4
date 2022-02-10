@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -32,14 +33,30 @@ public class LectureController {
     @Autowired
     IGradesService gradesService;
 
+    @Autowired
+    ISubjectService studentsService;
 
-    @GetMapping("/diary")
-    public ResponseEntity<List<Diary>> findALlDiary() {
-        return new ResponseEntity(diaryService.findAll(), HttpStatus.OK);
+
+    @GetMapping("{classroomId}/diary/")
+    public ResponseEntity<Set<Diary>> findALlDiaryForClassroom(@PathVariable int classroomId) {
+        Set<Diary> list = classService.findById(classroomId).get().getDiary();
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/diary/{id}")
+    public ResponseEntity<Diary> showUpdateForm(@PathVariable int id) {
+        return new ResponseEntity(diaryService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/student/diary/{studentId}")
+    public ResponseEntity<Set<Diary>> findAllForStudent(@PathVariable int studentId){
+        Set<Diary> list = appUserService.getAppUserById(studentId).get().getDiary();
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
     @PostMapping("/diary/{classroomId}")
-    public ResponseEntity<Diary> addDiary(@RequestBody Diary diary, @PathVariable int classroomId) {
+    public ResponseEntity<Diary> addDiaryForClassroom(@RequestBody Diary diary, @PathVariable int classroomId) {
         Classroom classroom = classService.findById(classroomId).get();
         diary.setDateOfWrite(new Date(System.currentTimeMillis()));
         diaryService.save(diary);
@@ -48,22 +65,39 @@ public class LectureController {
         return new ResponseEntity(diary, HttpStatus.OK);
     }
 
-    @GetMapping("/diary/{id}")
-    public ResponseEntity<Diary> showUpdateForm(@PathVariable int id) {
-        return new ResponseEntity(diaryService.findById(id), HttpStatus.OK);
+
+    @PostMapping("{studentId}/diary/")
+    public ResponseEntity<Diary> addDiaryForStudent(@RequestBody Diary diary, @PathVariable int studentId) {
+        AppUser student = appUserService.getAppUserById(studentId).get();
+        diary.setDateOfWrite(new Date(System.currentTimeMillis()));
+        diaryService.save(diary);
+        student.getDiary().add(diary);
+        appUserService.addAppUser(student);
+        return new ResponseEntity(diary, HttpStatus.OK);
     }
 
-    @PutMapping("/diary/")
-    public ResponseEntity<Diary> updateDiary(@RequestBody Diary diary) {
+    @PutMapping("/diary/{studentId}")
+    public ResponseEntity<Diary> updateDiary(@RequestBody Diary diary,@PathVariable int studentId) {
+        AppUser student = appUserService.getAppUserById(studentId).get();
         diary.setDateOfWrite(new Date(System.currentTimeMillis()));
+        diary.setLectureName(student.getName());
         diaryService.save(diary);
         return new ResponseEntity(diary, HttpStatus.OK);
     }
 
     @DeleteMapping("/{classroomId}/diary/{id}")
-    public ResponseEntity deleteDiary(@PathVariable int id,@PathVariable int classroomId) {
+    public ResponseEntity deleteDiaryForClassroom(@PathVariable int id,@PathVariable int classroomId) {
         Classroom classroom =   classService.findById(classroomId).get();
-        classroom.getDiary().remove(diaryService.findById(id));
+        classroom.getDiary().remove(diaryService.findById(id).get());
+        diaryService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/diary/{studentId}/{id}")
+    public ResponseEntity deleteDiaryForStudent(@PathVariable int id,@PathVariable int studentId) {
+        AppUser student = appUserService.getAppUserById(studentId).get();
+        student.getDiary().remove(diaryService.findById(id).get());
+        System.out.println(student.getDiary());
         diaryService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
