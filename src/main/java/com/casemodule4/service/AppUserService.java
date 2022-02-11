@@ -53,4 +53,9 @@ public class AppUserService implements IAppUserService{
         return appUser;
     }
 
+    @Override
+    public void save(AppUser appUser) {
+        appUserRepository.save(appUser);
+    }
+
 }

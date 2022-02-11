@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+
 public interface IAppUserService extends UserDetailsService {
     List<AppUser> getAppUserList();
     void addAppUser(AppUser appUser);
@@ -17,4 +17,5 @@ public interface IAppUserService extends UserDetailsService {
     List<AppUser> findAppUserByName(String name);
     UserDetails loadUserByUsername(String email);
     AppUser findAppUserByEmail(String getEmail);
+    void save(AppUser appUser);
 }

@@ -3,6 +3,7 @@ package com.casemodule4.controller;
 import com.casemodule4.model.AppUser;
 import com.casemodule4.model.UserToken;
 import com.casemodule4.service.IAppUserService;
+import com.casemodule4.service.IAppUserStatusService;
 import com.casemodule4.service.JwtService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class LoginAPI {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    IAppUserStatusService appUserStatusService;
+
     @PostMapping("/login")
     public ResponseEntity<UserToken> login(@RequestBody AppUser appUser) {
         Authentication authentication = authenticationManager.authenticate(
@@ -47,6 +51,8 @@ public class LoginAPI {
     @PostMapping("/register")
     public ResponseEntity<AppUser> register(@RequestBody AppUser appUser){
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+        //lấy id của status mình muốn mặc định
+        appUser.setAppUserStatus(appUserStatusService.finById(1));
         userService.addAppUser(appUser);
         return new ResponseEntity<>(appUser,HttpStatus.OK);
     }
