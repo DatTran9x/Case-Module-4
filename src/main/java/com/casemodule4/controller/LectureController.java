@@ -36,6 +36,9 @@ public class LectureController {
     @Autowired
     ISubjectService studentsService;
 
+    @Autowired
+    ICheckService checkService;
+
 
     @GetMapping("{classroomId}/diary/")
     public ResponseEntity<Set<Diary>> findALlDiaryForClassroom(@PathVariable int classroomId) {
@@ -135,5 +138,39 @@ public class LectureController {
     public ResponseEntity<Grades> updateSubject(@RequestBody Grades grades){
         gradesService.save(grades);
         return new ResponseEntity(grades,HttpStatus.OK);
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<List<RollCall>> findAllCheck(){
+        return new ResponseEntity(checkService.findAll(),HttpStatus.OK);
+    }
+
+    @PostMapping("{id}/check")
+    public ResponseEntity<RollCall> createCheck(@PathVariable int id){
+        RollCall rollCall = new RollCall();
+        rollCall.setDate(new Date(System.currentTimeMillis()));
+        rollCall.setChecked(true);
+        AppUser appUser = appUserService.getAppUserById(id).get();
+        appUser.getRollCall().add(rollCall);
+        checkService.save(rollCall);
+        return new ResponseEntity(rollCall,HttpStatus.OK);
+    }
+
+//    @PutMapping("/check")
+//    public ResponseEntity<Check> updateCheck(){
+//        checkService.save(check);
+//        return new ResponseEntity(check,HttpStatus.OK);
+//    }
+
+    @DeleteMapping("/check/{id}")
+    public ResponseEntity deleteCheck(@PathVariable  int id){
+        checkService.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("{id}/check/exist")
+    public Boolean getCheck(@PathVariable int id){
+        AppUser appUser = appUserService.getAppUserById(id).get();
+        return checkService.checkIfChecked(appUser);
     }
 }

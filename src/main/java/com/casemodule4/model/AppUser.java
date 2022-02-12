@@ -46,4 +46,7 @@ public class AppUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Diary> diary;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<RollCall> rollCall;
 }

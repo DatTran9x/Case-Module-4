@@ -52,5 +52,4 @@ public class AppUserService implements IAppUserService{
         AppUser appUser = appUserRepository.findByEmail(getEmail);
         return appUser;
     }
-
 }
