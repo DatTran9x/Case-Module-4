@@ -40,7 +40,7 @@ public class LoginAPI {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateTokenLogin(authentication);
         AppUser appUserTemp = userService.findAppUserByEmail(appUser.getEmail());
-        UserToken user = new UserToken(token,appUserTemp.getId());
+        UserToken user = new UserToken(token,appUserTemp.getId(),appUser.getRoles().getName());
         return new ResponseEntity(user, HttpStatus.OK);
     }
 

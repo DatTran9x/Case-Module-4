@@ -53,12 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**");
         http.authorizeRequests()
-//                .antMatchers("/", "/login**", "/register","/lecture/diary").permitAll()
-//                .antMatchers("/student/**").hasRole("/STUDENT")
+                .antMatchers("/", "/login**", "/register","/lecture/diary").permitAll()
+                .antMatchers("/student/**").hasRole("STUDENT")
 //                .antMatchers(("/admin")).hasRole("/ADMIN")
-//                .antMatchers(("/lecture/**")).hasRole("/LECTURE")
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/lecture/**","/student/**").hasRole("LECTURE")
+                .anyRequest().authenticated()
+//                .anyRequest().permitAll()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling();

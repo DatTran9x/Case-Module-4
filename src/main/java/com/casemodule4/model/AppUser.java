@@ -32,8 +32,8 @@ public class AppUser {
     @NotEmpty
     private String identity;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @ManyToOne
+    private Role roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Classroom> classroom;
