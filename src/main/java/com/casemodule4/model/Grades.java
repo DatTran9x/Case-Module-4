@@ -1,11 +1,10 @@
 package com.casemodule4.model;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -15,6 +14,5 @@ public class Grades {
     private double theoreticalPoint;
     private double practicePoint;
     private double averagePoint;
-
-
+    private Date dateOfTest;
 }

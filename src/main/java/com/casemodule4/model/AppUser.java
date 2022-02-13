@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -15,6 +15,8 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotEmpty
+    private String name;
     @Email
     private String email;
     @Size(min=6,max=8,message="Min 6,max 8")
@@ -30,9 +32,19 @@ public class AppUser {
     @NotEmpty
     private String identity;
 
-    @ManyToOne
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    // nhiều học sinh nhiều lớp, thảo luận lại
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Classroom> classroom;
 
     @ManyToOne
-    private Classroom classroom;
+    private Classroom classrooms;
+
+    @ManyToOne
+    private AppUserStatus appUserStatus;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Fee> fee;
 }

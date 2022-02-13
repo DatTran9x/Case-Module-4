@@ -3,6 +3,7 @@ package com.casemodule4.service;
 import com.casemodule4.model.AppUser;
 import com.casemodule4.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +46,13 @@ public class AppUserService implements IAppUserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appUser = appUserRepository.findByEmail(username);
-        return new User(appUser.getEmail(),appUser.getPassword(), Collections.singleton(appUser.getRole()));
+        return new User(appUser.getEmail(),appUser.getPassword(), appUser.getRoles());
     }
+
+    @Override
+    public List<AppUser> getAppUserByIdClassRoom(int id) {
+        return appUserRepository.findAllByClassrooms(id);
+    }
+
+
 }

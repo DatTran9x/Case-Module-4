@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Qualifier("IAppUserService")
     @Autowired
     private IAppUserService userService;
 
@@ -54,8 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**");
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/register").permitAll()
-                .anyRequest().authenticated()
+//                .antMatchers("/", "/login", "/register").permitAll()
+//                .antMatchers(("/student")).hasRole("/STUDENT")
+//                .antMatchers(("/admin")).hasRole("/ADMIN")
+//                .antMatchers(("/lecture")).hasRole("/LECTURE")
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling();

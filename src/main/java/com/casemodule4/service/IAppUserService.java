@@ -1,6 +1,7 @@
 package com.casemodule4.service;
 
 import com.casemodule4.model.AppUser;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -16,4 +17,5 @@ public interface IAppUserService extends UserDetailsService {
     Optional<AppUser> getAppUserById(int id);
     List<AppUser> findAppUserByName(String name);
     UserDetails loadUserByUsername(String email);
+    List<AppUser> getAppUserByIdClassRoom(int id);
 }
